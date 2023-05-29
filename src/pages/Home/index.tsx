@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
 import { Card, CardProps } from '../../components/Card';
 import './style.css'
@@ -13,12 +13,12 @@ type User = {
   avatar: string;
 }
 
-export function Home() {
+export const Home = () => {
   const [studentName, setStudentName] = useState('Vazio');
   const [students, setStudent] = useState<CardProps[]>([]);
   const [user, setUser] = useState<User>({} as User);
 
-  function handleAddStudent() {
+  const handleAddStudent = useCallback(() => {
     const newStudent = {
       name: studentName,
       time: new Date().toLocaleTimeString('pt-BR', {
@@ -26,10 +26,11 @@ export function Home() {
         minute: '2-digit',
         second: '2-digit',
       })
-    };
-
+    }
+    
+    
     setStudent(prevState => [...prevState, newStudent]);
-  }
+  }, [studentName]);
 
   useEffect(() => {
     async function fetchData() {
